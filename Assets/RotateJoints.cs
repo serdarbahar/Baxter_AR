@@ -19,7 +19,8 @@ public class RotateJoints : MonoBehaviour
         joint = this.GetComponent<ArticulationBody>();
         ArticulationDrive currentDrive = joint.xDrive;
         currentDrive.stiffness = 10000f;
-        currentDrive.damping = 100f;
+        currentDrive.damping = 2000f;
+        currentDrive.forceLimit = 1000f;
         joint.xDrive = currentDrive;
 
     }
@@ -37,12 +38,8 @@ public class RotateJoints : MonoBehaviour
 
         if (arm_value == selectedArm.value) {
             ArticulationDrive currentDrive = joint.xDrive;
-            if (slider.value > 0) {
-                currentDrive.target = slider.value * (joint.xDrive.upperLimit);
-            }
-            else {
-                currentDrive.target = slider.value * (joint.xDrive.lowerLimit);
-            }
+
+            currentDrive.target = slider.value;
             
             joint.xDrive = currentDrive;
         }

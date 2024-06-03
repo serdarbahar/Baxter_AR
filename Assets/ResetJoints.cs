@@ -6,12 +6,26 @@ using UnityEngine.UI;
 
 public class ResetJoints : MonoBehaviour
 {
+
+    [SerializeField]
     public Slider Slider_s0;
+
+    [SerializeField]
     public Slider Slider_s1;
+
+    [SerializeField]
     public Slider Slider_e0;
+
+    [SerializeField]
     public Slider Slider_e1;
+
+    [SerializeField]
     public Slider Slider_w0;
+
+    [SerializeField]
     public Slider Slider_w1;
+
+    [SerializeField]
     public Slider Slider_w2;
 
     // Start is called before the first frame update
@@ -20,7 +34,11 @@ public class ResetJoints : MonoBehaviour
 
     }
 
-    void JointReset()
+    void Update() {
+
+    }
+
+    public void JointReset()
     {
         
         
@@ -30,6 +48,7 @@ public class ResetJoints : MonoBehaviour
         foreach (Slider slider in sliders) {
             slider.value = 0;
         }
+        
         
     
     }

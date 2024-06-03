@@ -12,13 +12,13 @@ public class GetTransform : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    public void AutoTransform()
     {
+        
         
         Vector3 rot= new Vector3(0, leftController.transform.rotation.eulerAngles.y - 139, 0);
         baseLink.TeleportRoot(leftController.transform.position + (-0.01206f * baseLink.transform.forward) + ( -0.0946f * baseLink.transform.right) - (0.3f * transform.up),Quaternion.Euler(rot));
-
+        
     }
     
     
