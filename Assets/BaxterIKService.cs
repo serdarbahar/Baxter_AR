@@ -10,6 +10,7 @@ using RosMessageTypes.Unity;
 using Unity.Robotics.ROSTCPConnector;
 using Unity.Robotics.ROSTCPConnector.ROSGeometry;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BaxterIKService : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class BaxterIKService : MonoBehaviour
     string[] rightLinkNames = {"base/torso/right_arm_mount/right_upper_shoulder", "right_lower_shoulder", "right_upper_elbow",
         "right_lower_elbow", "right_upper_forearm", "right_lower_forearm", "right_wrist"};
    
+    [SerializeField]
+    public Dropdown selectedArm;
 
     [SerializeField]
     string m_ServiceName = "/ik_unity_helper_service";
@@ -102,15 +105,26 @@ public class BaxterIKService : MonoBehaviour
 
             for (var j = 0; j<jointState.position.Length; j++) {
 
-                //moves joints
-     
-                var joint1XDrive = m_leftJointArticulationBodies[j].xDrive;
-                            
-                float pi = 3.141592F;
 
-                joint1XDrive.target = (float) jointState.position[j] * 180 / pi;
+                if (selectedArm.value == 0) {
+                    //moves joints
+                    var joint1XDrive = m_leftJointArticulationBodies[j].xDrive;
+                                
+                    float pi = 3.141592F;
 
-                m_leftJointArticulationBodies[j].xDrive = joint1XDrive;
+                    joint1XDrive.target = (float) jointState.position[j] * 180 / pi;
+
+                    m_leftJointArticulationBodies[j].xDrive = joint1XDrive;
+                }
+                else {
+                    var joint1XDrive = m_rightJointArticulationBodies[j].xDrive;
+                                
+                    float pi = 3.141592F;
+
+                    joint1XDrive.target = (float) jointState.position[j] * 180 / pi;
+
+                    m_rightJointArticulationBodies[j].xDrive = joint1XDrive;
+                }
             }
             i++;
         }
