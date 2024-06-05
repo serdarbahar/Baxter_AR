@@ -11,6 +11,7 @@ using Unity.Robotics.ROSTCPConnector;
 using Unity.Robotics.ROSTCPConnector.ROSGeometry;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class BaxterIKService : MonoBehaviour
 {
@@ -27,8 +28,32 @@ public class BaxterIKService : MonoBehaviour
     string[] rightLinkNames = {"base/torso/right_arm_mount/right_upper_shoulder", "right_lower_shoulder", "right_upper_elbow",
         "right_lower_elbow", "right_upper_forearm", "right_lower_forearm", "right_wrist"};
    
+    /*
     [SerializeField]
     public Dropdown selectedArm;
+    */
+
+    
+    [SerializeField]
+    public Slider slider_s0;
+
+    [SerializeField]
+    public Slider slider_s1;
+
+    [SerializeField]
+    public Slider slider_e0;
+
+    [SerializeField] 
+    public Slider slider_e1;
+
+    [SerializeField] 
+    public Slider slider_w0;
+
+    [SerializeField]
+    public Slider slider_w1;
+
+    [SerializeField]
+    public Slider slider_w2;
 
     [SerializeField]
     string m_ServiceName = "/ik_unity_helper_service";
@@ -77,8 +102,8 @@ public class BaxterIKService : MonoBehaviour
 
     public void requestIK() {
 
-        //coordinates of the pedestal-torso link
-        Vector3<FLU> diff = new Vector3<FLU>((float) 0, (float) 0, (float) 0);
+        //coordinates of the base link
+        Vector3<FLU> diff = m_Baxter.transform.Find("base").position.To<FLU>();
 
         var endPoseMessage = new PoseMsg{
             position = m_Target.transform.position.To<FLU>() - diff,
@@ -92,6 +117,10 @@ public class BaxterIKService : MonoBehaviour
 
 
     void executeResponse(IKHelperUnityResponse response) {
+
+
+        // put all sliders in a slider list
+        List<Slider> sliders = new List<Slider> {slider_s0, slider_s1, slider_e0, slider_e1, slider_w0, slider_w1, slider_w2};
        
         var i = 0;
         foreach (var jointState in response.joints) {
@@ -101,30 +130,9 @@ public class BaxterIKService : MonoBehaviour
                 break;
             }
 
-            
-
-            for (var j = 0; j<jointState.position.Length; j++) {
-
-
-                if (selectedArm.value == 0) {
-                    //moves joints
-                    var joint1XDrive = m_leftJointArticulationBodies[j].xDrive;
-                                
-                    float pi = 3.141592F;
-
-                    joint1XDrive.target = (float) jointState.position[j] * 180 / pi;
-
-                    m_leftJointArticulationBodies[j].xDrive = joint1XDrive;
-                }
-                else {
-                    var joint1XDrive = m_rightJointArticulationBodies[j].xDrive;
-                                
-                    float pi = 3.141592F;
-
-                    joint1XDrive.target = (float) jointState.position[j] * 180 / pi;
-
-                    m_rightJointArticulationBodies[j].xDrive = joint1XDrive;
-                }
+            // traverse the slider list and assign the joint values
+            for (int j = 0; j < sliders.Count; j++) {
+                sliders[j].value = (float) jointState.position[j] * (float) (180 / Math.PI);
             }
             i++;
         }

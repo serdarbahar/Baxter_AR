@@ -8,7 +8,7 @@ public class RotateJoints : MonoBehaviour
 {
     //public float speed ;
     public GameObject arm ;
-    public Dropdown selectedArm ;
+    public Toggle selectedArm ;
     public ArticulationBody joint ;
     public Slider slider ;
     
@@ -35,8 +35,8 @@ public class RotateJoints : MonoBehaviour
         else
             arm_value = 1;
         
-
-        if (arm_value == selectedArm.value) {
+        //selectedArm.isOn -> right
+        if ( (selectedArm.isOn && arm_value == 1) || (!selectedArm.isOn && arm_value == 0) ) { 
             ArticulationDrive currentDrive = joint.xDrive;
 
             currentDrive.target = slider.value;

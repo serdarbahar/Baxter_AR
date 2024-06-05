@@ -20,9 +20,9 @@ public class AdjustText : MonoBehaviour
     void Update()
     {
         if (Slider.value > 0)
-            textMeshPro.text = (Slider.value * joint.xDrive.upperLimit).ToString("0.000") + "°";
+            textMeshPro.text = (Slider.value).ToString("0.000") + "°";
         else
-            textMeshPro.text = (-1 * Slider.value * joint.xDrive.lowerLimit).ToString("0.000") + "°";
+            textMeshPro.text = (Slider.value).ToString("0.000") + "°";
         
 
     }
