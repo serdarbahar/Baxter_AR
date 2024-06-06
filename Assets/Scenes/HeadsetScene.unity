@@ -12379,6 +12379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a3ba35a341b642b6933642efb8240a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedArm: {fileID: 1694317020}
   slider_s0: {fileID: 1986806771}
   slider_s1: {fileID: 1053217433}
   slider_e0: {fileID: 597168299}

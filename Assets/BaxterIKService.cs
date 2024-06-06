@@ -28,11 +28,9 @@ public class BaxterIKService : MonoBehaviour
     string[] rightLinkNames = {"base/torso/right_arm_mount/right_upper_shoulder", "right_lower_shoulder", "right_upper_elbow",
         "right_lower_elbow", "right_upper_forearm", "right_lower_forearm", "right_wrist"};
    
-    /*
+    
     [SerializeField]
-    public Dropdown selectedArm;
-    */
-
+    public Toggle selectedArm;
     
     [SerializeField]
     public Slider slider_s0;
@@ -110,7 +108,13 @@ public class BaxterIKService : MonoBehaviour
             orientation = m_PickOrientation.To<FLU>()
         };
 
-        IKHelperUnityRequest request = new IKHelperUnityRequest(endPoseMessage);
+        var arm = "";
+        if (selectedArm.isOn) 
+            arm = "right";
+        else
+            arm = "left";
+
+        IKHelperUnityRequest request = new IKHelperUnityRequest(endPoseMessage, arm);
 
         m_Ros.SendServiceMessage<IKHelperUnityResponse>(m_ServiceName, request, executeResponse);
     }
@@ -118,8 +122,6 @@ public class BaxterIKService : MonoBehaviour
 
     void executeResponse(IKHelperUnityResponse response) {
 
-
-        // put all sliders in a slider list
         List<Slider> sliders = new List<Slider> {slider_s0, slider_s1, slider_e0, slider_e1, slider_w0, slider_w1, slider_w2};
        
         var i = 0;

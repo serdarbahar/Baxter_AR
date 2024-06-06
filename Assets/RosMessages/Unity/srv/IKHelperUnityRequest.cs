@@ -14,15 +14,18 @@ namespace RosMessageTypes.Unity
         public override string RosMessageName => k_RosMessageName;
 
         public Geometry.PoseMsg pose;
+        public string arm;
 
         public IKHelperUnityRequest()
         {
             this.pose = new Geometry.PoseMsg();
+            this.arm = "";
         }
 
-        public IKHelperUnityRequest(Geometry.PoseMsg pose)
+        public IKHelperUnityRequest(Geometry.PoseMsg pose, string arm)
         {
             this.pose = pose;
+            this.arm = arm;
         }
 
         public static IKHelperUnityRequest Deserialize(MessageDeserializer deserializer) => new IKHelperUnityRequest(deserializer);
@@ -30,17 +33,20 @@ namespace RosMessageTypes.Unity
         private IKHelperUnityRequest(MessageDeserializer deserializer)
         {
             this.pose = Geometry.PoseMsg.Deserialize(deserializer);
+            deserializer.Read(out this.arm);
         }
 
         public override void SerializeTo(MessageSerializer serializer)
         {
             serializer.Write(this.pose);
+            serializer.Write(this.arm);
         }
 
         public override string ToString()
         {
             return "IKHelperUnityRequest: " +
-            "\npose: " + pose.ToString();
+            "\npose: " + pose.ToString() +
+            "\narm: " + arm.ToString();
         }
 
 #if UNITY_EDITOR
